@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import * as moviesAPI from "./services/Api";
-import HomePage from "./pages/HomePage";
-import MoviesPage from "./pages/MoviesPage";
 import { Route, Switch } from "react-router-dom";
-import ErrorPage from "./pages/ErrorPage";
 import Navigation from "./components/Navigation/Navigation";
-import MovieDetailsPage from "./pages/MovieDetailsPage";
+
+const AsyncHome = lazy(() => import("./pages/HomePage" /* home-page */));
+const AsyncMoviesPage = lazy(() => import("./pages/MoviesPage" /* movies-page */));
+const AsyncMovieDetailsPage = lazy(() => import("./pages/MovieDetailsPage" /* movie-details-page */));
+const AsyncErrorPage = lazy(() => import("./pages/ErrorPage" /* error-page */));
 
 class App extends Component {
   state = {
@@ -13,10 +14,6 @@ class App extends Component {
     casts: [],
     reviews: [],
   };
-
-  //  getMoveDescription = (id) => {
-  //    moviesAPI.fetchMovieDescription(id).then(data).catch(error => this.setState({error}))
-  //  }
 
   getMovieCast = (id) => {
     moviesAPI.fetchMovieCast(id).then(({ data }) =>
@@ -44,13 +41,15 @@ class App extends Component {
   render() {
     return (
       <>
-      <Navigation/>
-        <Switch>
-          <Route exact path="/"><HomePage/></Route>
-          <Route exact path="/movies" component={MoviesPage} />
-          <Route path="/movies/:id" component={MovieDetailsPage}/>
-          <Route component={ErrorPage} />
-        </Switch>
+        <Navigation />
+        <Suspense fallback={<h2>Loading...</h2>}>
+          <Switch>
+            <Route exact path="/" component={AsyncHome}></Route>
+            <Route exact path="/movies" component={AsyncMoviesPage} />
+            <Route path="/movies/:id" component={AsyncMovieDetailsPage} />
+            <Route component={AsyncErrorPage} />
+          </Switch>
+        </Suspense>
       </>
     );
   }

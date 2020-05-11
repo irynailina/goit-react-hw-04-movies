@@ -1,17 +1,18 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import styles from './navigation.module.css'
 
 const Navigation = () => (
-    <ul>
-    <li>
-      <NavLink exact
+    <ul className={styles.navList}>
+    <li className={styles.navItem}>
+      <NavLink className={styles.link} exact
       activeStyle={{
           color: "red"
       }}
       to="/">Home</NavLink>
     </li>
     <li>
-      <NavLink
+      <NavLink className={styles.link}
        activeStyle={{
         color: "red"
     }}

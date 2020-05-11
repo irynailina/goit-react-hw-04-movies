@@ -1,0 +1,16 @@
+.navList {
+    list-style: none;
+    display: flex;
+    border-bottom: 2px solid gray;
+    font-family: sans-serif;
+}
+
+.navItem {
+    margin-right: 50px;
+    margin-bottom: 30px;
+}
+
+.link {
+    text-decoration: none;
+
+}

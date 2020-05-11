@@ -26,8 +26,7 @@ class HomePage extends Component {
     const { popularMovies } = this.state;
     return (
       <>
-        <h2>Trending today</h2>
-        <MoviesList popularMovies={popularMovies} />
+        <MoviesList popularMovies={popularMovies} path={this.props.match.path}/>
       </>
     );
   }

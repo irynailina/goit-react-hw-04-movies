@@ -1,16 +1,27 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { fetchPopularMovies } from "../services/Api";
+import React, { Component, lazy, Suspense } from "react";
+import { withRouter, Link, Switch, Route } from "react-router-dom";
 import { fetchMovieDescription } from "../services/Api";
+import MovieDetails from "../components/MovieDetails/MovieDetails";
+// import queryString from 'query-string'
+
+const AsyncCast = lazy(() => import("../components/Cast/Cast"));
+const AsyncReviews = lazy(() => import("../components/Reviews/Reviews"));
 
 class MovieDetailsPage extends Component {
   state = {
     movie: null,
+    casts: [],
   };
 
   componentDidMount() {
     this.getMovieDetails();
-    console.log(this.props.match.params.id);
+    //  const str = queryString.parse(this.props.location.search)
+    //  console.log(str);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(prevProps);
+    // console.log(this.props);
   }
 
   getMovieDetails = () => {
@@ -21,30 +32,58 @@ class MovieDetailsPage extends Component {
     );
   };
 
-  //   getMovieDetails = () => {
-  //     fetchPopularMovies()
-  //       .then(( {data} ) =>
-  //         this.setState({
-  //           movie: data.results.find((movie) => movie.id === this.props.match.params.id)
-  //         })
-  //       )
-  //       .catch((error) => this.setState({ error }));
-  //   };
+  handleGoBack = () => {
+    // console.log(this.props);
+    this.props.history.push("/movies");
+  };
 
   render() {
     const { movie } = this.state;
-    console.log(movie);
-    //   console.log(movie.data.title);
+    // console.log(queryString.parse(this.props.location.search));
+
     return (
-      movie && (
-        <>
-          <h2>{movie.data.title}</h2>
-          <p>{movie.data.overview}</p>
-          <button onClick={() => this.props.history.push("/movies")}>
-            Go back
-          </button>
-        </>
-      )
+      <>
+        {movie && (
+          <>
+            <MovieDetails
+              handleGoBack={this.handleGoBack}
+              id={movie.data.id}
+              title={movie.data.title}
+              overview={movie.data.overview}
+              poster={`https://image.tmdb.org/t/p/w500${movie.data.poster_path}`}
+              year={movie.data.release_date.slice(0, 4)}
+              score={movie.data.vote_average}
+              genres={movie.data.genres.map((genre) => genre.name + " ")}
+            />
+            <ul>
+              <li>
+                <Link
+                  to={{
+                    pathname: `/movies/${this.props.match.params.id}/cast`,
+                  }}
+                >
+                  Cast
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={{
+                    pathname: `/movies/${this.props.match.params.id}/reviews`,
+                  }}
+                >
+                  Reviews
+                </Link>
+              </li>
+            </ul>
+            <Suspense fallback={<h2>Loading...</h2>}>
+              <Switch>
+                <Route path="/movies/:id/cast" component={AsyncCast} />
+                <Route path="/movies/:id/reviews" component={AsyncReviews} />
+              </Switch>
+            </Suspense>
+          </>
+        )}
+      </>
     );
   }
 }
