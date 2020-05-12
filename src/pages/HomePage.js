@@ -26,7 +26,10 @@ class HomePage extends Component {
     const { popularMovies } = this.state;
     return (
       <>
-        <MoviesList popularMovies={popularMovies} path={this.props.match.path}/>
+        <MoviesList
+          popularMovies={popularMovies}
+          path={this.props.match.path}
+        />
       </>
     );
   }

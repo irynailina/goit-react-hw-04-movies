@@ -23,7 +23,6 @@ class MovieDetailsPage extends Component {
       });
   }
 
-
   getMovieDetails = () => {
     fetchMovieDescription(this.props.match.params.id).then((movie) =>
       this.setState({
@@ -43,7 +42,6 @@ class MovieDetailsPage extends Component {
 
   render() {
     const { movie } = this.state;
-    console.log(this.props);
     return (
       <>
         {movie && (

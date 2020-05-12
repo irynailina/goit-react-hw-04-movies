@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './reviewsList.module.css'
+import styles from "./reviewsList.module.css";
 
 const ReviewsList = ({ reviews }) => (
   <ul>
