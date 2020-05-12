@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./moviesList.module.css";
+import PropTypes from "prop-types";
 
 const MoviesList = ({ popularMovies, from }) => (
   <>
@@ -23,3 +24,12 @@ const MoviesList = ({ popularMovies, from }) => (
 );
 
 export default MoviesList;
+
+MoviesList.propTypes = {
+  popularMovies: PropTypes.array.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      from: PropTypes.string.isRequired,
+    }),
+  }),
+};

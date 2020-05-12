@@ -4,6 +4,7 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import SearchMoviesList from "../components/SearchMoviesList/SearchMoviesList";
 import { withRouter } from "react-router-dom";
 import queryString from "query-string";
+import PropTypes from "prop-types";
 
 class MoviesPage extends Component {
   state = {
@@ -78,3 +79,16 @@ class MoviesPage extends Component {
 }
 
 export default withRouter(MoviesPage);
+
+MoviesPage.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+  match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }),
+};

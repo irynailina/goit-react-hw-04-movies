@@ -2,6 +2,7 @@ import React, { Component, lazy, Suspense } from "react";
 import { withRouter, Link, Switch, Route } from "react-router-dom";
 import { fetchMovieDescription } from "../services/Api";
 import MovieDetails from "../components/MovieDetails/MovieDetails";
+import PropTypes from "prop-types";
 
 const AsyncCast = lazy(() => import("../components/Cast/Cast"));
 const AsyncReviews = lazy(() => import("../components/Reviews/Reviews"));
@@ -90,3 +91,21 @@ class MovieDetailsPage extends Component {
 }
 
 export default withRouter(MovieDetailsPage);
+
+MovieDetails.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }),
+  location: PropTypes.shape({
+    state: PropTypes.object.isRequired,
+  }),
+  state: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+};

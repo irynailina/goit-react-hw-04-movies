@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./movieDetails.module.css";
+import PropTypes from 'prop-types';
 
 const MovieDetails = ({
   title,
@@ -36,3 +37,13 @@ const MovieDetails = ({
 );
 
 export default MovieDetails;
+
+MovieDetails.propTypes = {
+  title: PropTypes.string.isRequired,
+  overview: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  score: PropTypes.string.isRequired,
+  genres: PropTypes.array.isRequired,
+  handleGoBack: PropTypes.func.isRequired
+}

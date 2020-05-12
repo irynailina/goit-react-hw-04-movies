@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { fetchMovieCast } from "../../services/Api";
 import CastList from "../CastList/CastList";
+import PropTypes from 'prop-types';
 
 class Cast extends Component {
   state = {
@@ -28,3 +29,12 @@ class Cast extends Component {
 }
 
 export default Cast;
+
+
+Cast.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    })
+  })
+}

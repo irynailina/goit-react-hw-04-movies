@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { fetchPopularMovies } from "../services/Api";
 import MoviesList from "../components/MoviesList/MoviesList";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class HomePage extends Component {
   state = {
@@ -36,3 +37,11 @@ class HomePage extends Component {
 }
 
 export default withRouter(HomePage);
+
+HomePage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }),
+};

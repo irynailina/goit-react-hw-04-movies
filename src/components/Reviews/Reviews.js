@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { fetchMovieReviews } from "../../services/Api";
 import ReviewsList from "../ReviewsList/ReviewsList";
+import PropTypes from "prop-types";
 
 class Reviews extends Component {
   state = {
@@ -36,3 +37,11 @@ class Reviews extends Component {
 }
 
 export default Reviews;
+
+Reviews.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }),
+};

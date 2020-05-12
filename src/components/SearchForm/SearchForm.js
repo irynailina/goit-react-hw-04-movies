@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./searchForm.module.css";
+import PropTypes from 'prop-types';
 
 const SearchForm = ({ handleSubmit, handleQueryChange, query }) => (
   <form onSubmit={handleSubmit}>
@@ -15,3 +16,10 @@ const SearchForm = ({ handleSubmit, handleQueryChange, query }) => (
 );
 
 export default SearchForm;
+
+SearchForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  handleQueryChange: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired
+}
+
