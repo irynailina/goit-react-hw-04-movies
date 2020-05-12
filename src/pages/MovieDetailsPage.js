@@ -2,7 +2,6 @@ import React, { Component, lazy, Suspense } from "react";
 import { withRouter, Link, Switch, Route } from "react-router-dom";
 import { fetchMovieDescription } from "../services/Api";
 import MovieDetails from "../components/MovieDetails/MovieDetails";
-// import queryString from 'query-string'
 
 const AsyncCast = lazy(() => import("../components/Cast/Cast"));
 const AsyncReviews = lazy(() => import("../components/Reviews/Reviews"));
@@ -11,18 +10,19 @@ class MovieDetailsPage extends Component {
   state = {
     movie: null,
     casts: [],
+    from: "",
+    search: "",
   };
 
   componentDidMount() {
     this.getMovieDetails();
-    //  const str = queryString.parse(this.props.location.search)
-    //  console.log(str);
+    this.props.location.state &&
+      this.setState({
+        from: this.props.location.state.from,
+        search: this.props.location.state.search,
+      });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // console.log(prevProps);
-    // console.log(this.props);
-  }
 
   getMovieDetails = () => {
     fetchMovieDescription(this.props.match.params.id).then((movie) =>
@@ -33,14 +33,17 @@ class MovieDetailsPage extends Component {
   };
 
   handleGoBack = () => {
-    // console.log(this.props);
-    this.props.history.push("/movies");
+    this.state.search
+      ? this.props.history.push({
+          pathname: this.state.from,
+          search: `query=${this.state.search}`,
+        })
+      : this.props.history.push("/");
   };
 
   render() {
     const { movie } = this.state;
-    // console.log(queryString.parse(this.props.location.search));
-
+    console.log(this.props);
     return (
       <>
         {movie && (

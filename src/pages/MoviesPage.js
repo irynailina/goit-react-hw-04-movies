@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { fetchMovies } from "../services/Api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import SearchMoviesList from "../components/SearchMoviesList/SearchMoviesList";
-import { withRouter} from "react-router-dom";
-// import queryString from "query-string";
+import { withRouter } from "react-router-dom";
+import queryString from "query-string";
 
 class MoviesPage extends Component {
   state = {
@@ -18,10 +18,22 @@ class MoviesPage extends Component {
   //   this.getMovies()
   // }
 
-  // componentDidMount() {
-  //   const str = queryString.parse(this.props.location.search);
-  //   console.log(str);
-  // }
+ componentDidMount () {
+   console.log(this.props);
+   const str = queryString.parse(this.props.location.search).query
+   console.log(str);
+   this.props.location.search && this.setState({
+      query: str
+    })
+   this.props.location.search && fetchMovies(str, 1)
+    .then(({ data }) =>
+      this.setState((prevState) => ({
+        movies: [...data.results],
+        page: prevState.page + 1,
+      }))
+    )
+    .catch((error) => this.setState({ error }));
+  }
 
   getMovies = () => {
     fetchMovies(this.state.query, 1)
@@ -44,17 +56,19 @@ class MoviesPage extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.getMovies();
+    this.props.history.push({pathname: this.props.location.pathname, search: `query=${this.state.query}`});
+
     // this.setState({
     //   query: "",
     // });
   };
 
   render() {
+    console.log(this.props);
     // console.log(queryString.parse(this.props.location.search));
     const { query, movies } = this.state;
     return (
       <>
-
         <SearchForm
           handleSubmit={this.handleSubmit}
           handleQueryChange={this.handleQueryChange}
@@ -62,6 +76,7 @@ class MoviesPage extends Component {
         />
         {/* <Route path="/movies?query=apple" render={props => <SearchMoviesList {...props} query={query} movies={movies} path={this.props.match.path}/>} /> */}
         <SearchMoviesList
+          from={this.props.location.pathname}
           query={query}
           movies={movies}
           path={this.props.match.path}
