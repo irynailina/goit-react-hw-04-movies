@@ -40,8 +40,6 @@ export default withRouter(HomePage);
 
 HomePage.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
+      path: PropTypes.string.isRequired,
   }),
 };
